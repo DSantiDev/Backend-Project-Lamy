@@ -1,0 +1,23 @@
+{
+  "name": "backend-lamy",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --env-file .env --watch ./src/index.js"
+  },
+  "keywords": [
+    "express",
+    "mongoose",
+    "bcrypt"
+  ],
+  "author": "David Santiago Rodriguez Moreno <davidsantiagor123@gmail.com>",
+  "license": "ISC",
+  "description": "BackEnd: API para Lamy",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.20.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.6.2"
+  }
+}
