@@ -3,6 +3,7 @@ const UserModel = require("../models/User.model");
 const { dbGetUserByUsername, dbRegisterUser } = require("../services/auth.service");
 
 const { generateToken} = require( '../helpers/jwt.helper' );
+const { json } = require("express");
 
 async function register( req, res ) {
     // Paso 1: Obtener los datos a registrar (usuario)
@@ -78,15 +79,24 @@ async function login( req, res ) {
             id: userFound._id,
             name: userFound.name,
             username: userFound.username,
+            lastname: userFound.lastname,
+            address: userFound.address,
             role: userFound.role
         };
         
         const token = generateToken( payload );
 
+        const jsonUser = userFound.toObject()
+
+        delete jsonUser.__v
+        delete jsonUser.createdAt
+        delete jsonUser.updatedAt
+
         // Paso 5: Responder al cliente enviandole el Token
         res.json({
             ok: true,
-            token
+            token,
+            data: jsonUser
         });
 
     } 
