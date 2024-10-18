@@ -1,4 +1,5 @@
-const { dbInsertProduct, dbGetProducts, dbGetProductById, dbDeleteProduct, dbUpdateProduct, findProductByName } = require('../services/product.service');
+const { dbInsertProduct, dbGetProducts, dbGetProductById, dbDeleteProduct, dbUpdateProduct, findProductByName, dbGetProductscategory } = require('../services/product.service');
+const ProductModel = require("../models/Product.model");
 
 
 // Muestra todos los productos registrados
@@ -126,14 +127,44 @@ async function deleteProduct( req, res ) {
 }
 
 const getProductByName = async (req, res) => {
-    const { productName } = req.params;
+    const { name, description } = req.body;
 
     try {
-        const product = await findProductByName(productName);
+        const products = await findProductByName({ name, description });
 
-        return res.status(200).json(product); // Devolvemos el producto encontrado
+        if (!products || products.length === 0) {
+            return res.status(404).json({
+                ok: false,
+                msg: 'No se encontraron productos que coincidan con los criterios de búsqueda'
+            });
+        }
+
+        return res.status(200).json({
+            ok: true,
+            data: products
+        });
     } catch (error) {
-        return res.status(404).json({ message: error.message });
+        console.error('Error en la búsqueda de productos:', error);
+        return res.status(500).json({
+            ok: false,
+            msg: 'Error al buscar productos'
+        });
+    }
+}
+const getCategory = async (req, res) => {
+    try {
+        // Obtener el nombre de la categoría desde los parámetros de la URL
+        const categoryName = req.params.categoryName;
+
+        // Llamar al servicio con el categoryName
+        const products = await dbGetProductscategory(categoryName);
+
+        // Responder con los productos encontrados
+        res.json(products);
+    } catch (error) {
+        // Imprime el error completo para diagnosticar el problema
+        console.error("Error en getCategory:", error);
+        res.status(500).send('Error al obtener productos.');
     }
 };
 
@@ -146,5 +177,6 @@ module.exports = {
     updateProductPut,
     updateProductPatch,
     deleteProduct,
-    getProductByName
+    getProductByName,
+    getCategory
 }

@@ -1,5 +1,7 @@
 const mongoose = require( 'mongoose' );
 
+const contactUser = require('../models/Contact.model' );
+
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -14,8 +16,12 @@ const UserSchema = new mongoose.Schema({
         required: true,
         unique: true
     }, 
-    phone: {
-        type: Number,
+    password: {
+        type: String,
+        required: true
+    },
+    username: {
+        type: String,
         required: true
     },
     address: {
@@ -32,12 +38,12 @@ const UserSchema = new mongoose.Schema({
         default: 'registered'
     }
 }, {
-    timestamps: true    
+    timestamps: true    // Agrega campos de fecha: creacion y actualizacion del documento
 });
 
 const UserModel = mongoose.model(
-    'users',           
-    UserSchema          
+    'users',            // Nombre de la coleccion
+    UserSchema          // Estructura de datos de nuestro modelo
 ); 
 
 

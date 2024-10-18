@@ -1,6 +1,7 @@
 const express = require( 'express' );
+const cors = require('cors');
+
 const app = express();
-const cors = require( 'cors' )
 const PORT = process.env.PORT;
 
 const dbConection = require( './config/mongo.config' );
@@ -9,12 +10,9 @@ const dbConection = require( './config/mongo.config' );
 dbConection();
 
 /** MIDDLEWARE: */
+app.use(cors());
 app.use( express.json() );              // Middleware: Permite manejar JSON en las solicitudes
-app.use( cors())
 
-// app.use(cors({
-//     origin: 'http://localhost:4200'
-//   }));
 /** EndPoints de nuestro servidor */
 app.use( '/api/products', require( './routes/product.routes' ) );   // Middleware: Activa solicitudes que comienzan con el prefijo /api/products
 app.use( '/api/auth', require( './routes/auth.routes' ) );          // Middleware: Activa solicitudes que comienzan con el prefijo /api/auth
@@ -26,5 +24,5 @@ app.use( '/api/order', require( './routes/orden.routes' ) );
  * http://localhost:3000
 */
 app.listen( PORT, function() {
-    console.log( 'Servidor corriendo en puerto 3000' );
+    console.log( 'Servidor corriendo en puerto ', PORT );
 });

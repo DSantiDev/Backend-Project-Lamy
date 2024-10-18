@@ -10,7 +10,7 @@ const dbInsertWishList = async ( newWishList  ) => {
     return await WishListModel.create( newWishList );
 }
 const dbGetWishList = async () => {
-    return await WishListModel.find().populate(['wishList','userId']);
+    return await WishListModel.find().populate('userId').populate('wishList');
 }
 const dbGetWishListById = async ( _id ) => {
     return await WishListModel.findOne({ _id });
@@ -26,16 +26,27 @@ const dbUpdateWishList = async ( id, updatedProduct ) => {
 const dbDeleteWishList = async ( id ) => {
     return await WishListModel.findByIdAndDelete( id );
 }
-const findProductInWishList = async (userId, productName) => {
+
+const searchProductsInWishList = async (userId, { name, description }) => {
+    // Buscar la lista de deseos del usuario
     const wishList = await WishListModel.findOne({ userId }).populate('wishList');
 
-    if (!wishList) {
-        throw new Error('Wish list not found');
+    if (!wishList || wishList.wishList.length === 0) {
+        throw new Error('No tienes productos en tu lista de deseos');
     }
 
-    const product = wishList.wishList.find(item => item.name === productName);
-    
-    return product || null; // Devuelve el producto o null si no se encuentra
+    // Filtrar productos por nombre o descripción
+    let filteredProducts = wishList.wishList;
+
+    if (name) {
+        filteredProducts = filteredProducts.filter(product => product.name.match(new RegExp(name, 'i')));
+    }
+
+    if (description) {
+        filteredProducts = filteredProducts.filter(product => product.description.match(new RegExp(description, 'i')));
+    }
+
+    return filteredProducts;
 };
 
 module.exports={
@@ -44,5 +55,5 @@ module.exports={
     dbGetWishListById,
     dbUpdateWishList,
     dbDeleteWishList,
-    findProductInWishList
+    searchProductsInWishList
 };

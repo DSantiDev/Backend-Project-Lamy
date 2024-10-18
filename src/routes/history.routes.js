@@ -11,6 +11,6 @@ router.get( '/:id',authUser, getHistoryById );
 router.patch( '/:id', authUser, updateHistoryPatch);
 router.delete( '/:id', authUser, deleteHistory );                               
 
-router.get('/:userId/products/:productName', authUser, getProductFromHistory);
+router.get('/:userId/products/:productName', getProductFromHistory);
 
 module.exports = router;

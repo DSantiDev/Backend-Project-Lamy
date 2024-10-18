@@ -1,6 +1,6 @@
 const express = require( 'express' );
 const { authUser } = require('../middlewares/auth-user.middleware');
-const { insertWishList, GetWishList, updateWishListPatch, deleteWishList, getWishListById, getProductFromWishList } = require('../controllers/wishlist.controller');
+const { insertWishList, GetWishList, updateWishListPatch, deleteWishList, getWishListById, getProductFromWishList, getProductInWishListByName } = require('../controllers/wishlist.controller');
 const router = express.Router();
 
 
@@ -9,6 +9,6 @@ router.get( '/', authUser,GetWishList);                         // muestra todos
 router.get( '/:id', getWishListById);  
 router.patch( '/:id', authUser,authUser,updateWishListPatch);    // Actualiza parcialmente los campos de un producto
 router.delete( '/:id', authUser, authUser,deleteWishList );       // elimina la lista de deseos 
-
-router.get('/:userId/products/:productName',authUser,getProductFromWishList);
+// Router para búsqueda en la lista de deseos
+router.post('/search',authUser, getProductInWishListByName);
 module.exports = router;

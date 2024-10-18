@@ -1,5 +1,5 @@
 const CartModel = require("../models/Cart.model");
-const ProductModel = require('../models/Product.model');
+
 
 const dbCart = async ( newCart ) => {
     const existingCart = await CartModel.findOne({ userId: newCart.userId, status: 'pending' });
@@ -38,22 +38,38 @@ const dbDeleteCart = async ( id ) => {
         model: 'products'
     });
 }
-const findProductInCart = async (userId, productName) => {
+
+const searchProductsInCart = async (userId, { name, description }) => {
+    // Buscar el carrito del usuario
     const cart = await CartModel.findOne({ userId }).populate('products.product');
-    
-    if (!cart) {
-        throw new Error('carro no encontrado');
+
+    if (!cart || cart.products.length === 0) {
+        throw new Error('No tienes productos en tu carrito');
     }
 
-    const product = cart.products.find(item => item.product.name === productName);
-    
-    return product ? product.product : null; // Devuelve el producto o null si no se encuentra
+    // Filtrar productos por nombre o descripción
+    let filteredProducts = cart.products;
+
+    if (name) {
+        filteredProducts = filteredProducts.filter(item => 
+            item.product.name.match(new RegExp(name, 'i'))
+        );
+    }
+
+    if (description) {
+        filteredProducts = filteredProducts.filter(item => 
+            item.product.description.match(new RegExp(description, 'i'))
+        );
+    }
+
+    return filteredProducts;
 };
+
 module.exports = {
     dbCart,
     dbGetCart,
     dbGetCartById,
     dbUpdateCart,
     dbDeleteCart,
-    findProductInCart
+    searchProductsInCart
 }

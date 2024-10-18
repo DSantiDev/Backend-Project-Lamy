@@ -21,7 +21,7 @@ async function insertorder( req, res ) {
         console.error( error );
         res.status( 500 ).json({
             ok: false,
-            msg: 'Error al insertar el producto a la lista de deseos '
+            msg: 'Error al insertar el producto a la orden'
         })
     }
 
@@ -40,7 +40,7 @@ async function Getorder( req, res ) {
         console.error( error );
         res.status( 500 ).json({
             ok: false,
-            msg: 'Error al obtener todos los productos de la lista de deseos'
+            msg: 'Error al obtener todos los productos de la orden'
         });
     }
 }

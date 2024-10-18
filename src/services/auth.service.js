@@ -6,20 +6,27 @@ const dbGetUserByUsername = async ( email ) => {
 }
 
 const dbRegisterUser = async ( newUser ) => {
-    const dbUser = new UserModel( newUser );  // Prepara los datos en JSON para registrar en MongoDB 
+    if (!newUser.username || newUser.username === '') {
+        throw new Error('El email (username) no puede estar vacío');
+    }
 
-    const hashPassword = encryptedPassword( dbUser.password );
-    // console.log( hashPassword );
+    const dbUser = new UserModel(newUser);
 
-    dbUser.password = hashPassword;     // Reescribiendo el password original por el encriptado
+    // Encriptar la contraseña
+    const hashPassword = encryptedPassword(dbUser.password);
+    dbUser.password = hashPassword;
 
-    const dbTempUser = await dbUser.save();   // Guarda en la base de datos y devuelve el usuario registrado
-    const dataUser = dbTempUser.toObject();
-    delete dataUser.password;
-    delete dataUser.createdAt;
-    delete dataUser.updatedAt;
-    delete dataUser.__v; 
-    return dataUser;
+    // Guardar el usuario en la base de datos
+    const savedUser = await dbUser.save();
+
+    // Eliminar la propiedad password antes de devolver el objeto
+    const userWithoutPassword = savedUser.toObject();
+    delete userWithoutPassword.password;
+    delete userWithoutPassword.createdAt;
+    delete userWithoutPassword.updatedAt;
+    delete userWithoutPassword.__v;
+
+    return userWithoutPassword;
 }
 
 
