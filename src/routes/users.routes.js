@@ -9,13 +9,13 @@ const { authRole } = require('../middlewares/auth-role.middleware');
  * http://localhost:3000/api/products/
 */
 
-router.post( '/',authRole, authUser, createUser  );           // Crear un producto
+router.post( '/', authUser, createUser  );           // Crear un producto
 
-router.get( '/',authRole, getUser );                         // Obtiene todos los productos
-router.get( '/:id',authRole, getUserById );                   // Obtiene un producto por su ID                            
+router.get( '/', getUser );                         // Obtiene todos los productos
+router.get( '/:id', getUserById );                   // Obtiene un producto por su ID                            
 // router.put( '/', authUser, updateProductPut );        // Actualiza todos los campos de un producto
-router.patch( '/:id',authRole, authUser, updateUserPatch);    // Actualiza parcialmente los campos de un producto
-router.delete( '/:id',authRole, authUser, deleteUser );        // Elimina un producto
+router.patch( '/:id', authUser, updateUserPatch);    // Actualiza parcialmente los campos de un producto
+router.delete( '/:id', authUser, deleteUser );        // Elimina un producto
 
 
 

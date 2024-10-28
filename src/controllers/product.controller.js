@@ -2,9 +2,8 @@ const { dbInsertProduct, dbGetProducts, dbGetProductById, dbDeleteProduct, dbUpd
 const ProductModel = require("../models/Product.model");
 
 
-// Muestra todos los productos registrados
+
 async function getProducts( req, res ) {
-    /** ! TODO: Obtener los productos paginados */
     try {
         const data = await dbGetProducts();
 

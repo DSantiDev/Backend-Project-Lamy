@@ -20,6 +20,7 @@ app.use( '/api/cart', require( './routes/cart.routes' ) );
 app.use( '/api/wishlist', require( './routes/wishlist.routes' ) ); 
 app.use( '/api/history', require( './routes/history.routes' ) );  
 app.use( '/api/order', require( './routes/orden.routes' ) );
+app.use( '/api/users', require( './routes/users.routes' ) );
 /** Lanzamos el servidor en puergto indicado 
  * http://localhost:3000
 */
