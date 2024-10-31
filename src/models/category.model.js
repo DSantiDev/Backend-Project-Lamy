@@ -1,16 +1,21 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+const { Schema, model } = require( 'mongoose' );
 
-// Definimos el esquema de Categoría
-const categorySchema = new Schema({
-    name: { type: String, required: true },
-    products: [{ type: Schema.Types.ObjectId, ref: 'products' }]  // Referencia a los productos
+const CategorySchema = new Schema({
+    name: {
+        type: String,
+        required: [ true, 'El nombre de la categoria es obligatoria.' ],
+        unique: [ true, 'La categoria ya esta registrada.' ]
+    },
+    description: String
+},{
+    timestamps: true
 });
 
-// Creamos el modelo
-const Categorymodel = mongoose.model(
-    'Category', 
-    categorySchema
+/** Crear el modelo de datos a partir de la estructura de datos */
+const CategoryModel = model(
+    'Categories',       // Nombre de la coleccion a la que vamos a asociar nuestra estructura de datos
+    CategorySchema      // Estructura de datos para los documentos de esta coleccion
 );
 
-module.exports = Categorymodel ;
+
+module.exports = CategoryModel;

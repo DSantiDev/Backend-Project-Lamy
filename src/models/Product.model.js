@@ -21,9 +21,9 @@ const ProductSchema = new Schema({
         min: 1
     },
     category: {
-        type: String,
-        required: true,
-        default: 'non-category'
+        type: Schema.Types.ObjectId,   
+        ref: 'subcategories',        
+        required: true
     },
     urlImage: {
         type: String

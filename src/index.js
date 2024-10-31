@@ -21,6 +21,9 @@ app.use( '/api/wishlist', require( './routes/wishlist.routes' ) );
 app.use( '/api/history', require( './routes/history.routes' ) );  
 app.use( '/api/order', require( './routes/orden.routes' ) );
 app.use( '/api/users', require( './routes/users.routes' ) );
+app.use( '/api/categories', require( './routes/categories.routes' ) );
+app.use( '/api/subcategories', require( './routes/subcategory.routes' ) );
+
 /** Lanzamos el servidor en puergto indicado 
  * http://localhost:3000
 */
