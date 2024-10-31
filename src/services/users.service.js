@@ -3,7 +3,7 @@ const { encryptedPassword } = require("../helpers/bcrypt.helper");
 
 const dbGetUser = async () => {
     // Aquí podrías agregar lógica para excluir la contraseña en todos los usuarios
-    return await UserModel.find().select('-password -createdAt -updatedAt -__v').populate('userId');
+    return await UserModel.find().populate('_id');
 }
 
 const dbGetUserById = async (_id) => {
