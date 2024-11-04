@@ -12,6 +12,9 @@ const SubcategorySchema = new Schema({
         type: Schema.Types.ObjectId, // Hace referencia a un ID de documento de otra colección
         ref: 'Categories', // Nombre de la colección con la cual se vincula
         required: [true, 'La categoría a la que pertenece la subcategoría es obligatoria.']
+    },
+    urlImage: {
+        type: String
     }
 }, {
     timestamps: true

@@ -13,45 +13,15 @@ const dbGetProductById = async ( _id ) => {
 
 const dbInsertProduct = async ( newProduct ) => {
     try {
-        // Crear el producto en la colección general 'products'
         const product = new ProductModel(newProduct);
         await product.save();
-
-        // Verificar si la categoría ya existe en la colección de categorías
-        let category = await Categorymodel.findOne({ name: newProduct.category });
-
-        // Si la categoría no existe, la creamos
-        if (!category) {
-            category = new Categorymodel({ name: newProduct.category });
-            await category.save();
-        }
-
-        // Asociar el producto con la categoría (agregamos el producto a la lista de productos de la categoría)
-        category.products.push(product._id);  // Usamos el _id del producto
-        await category.save();
-
-        // También guardamos el producto en la colección específica de la categoría
-        const categoryCollectionName = newProduct.category;
-        let categoryCollection;
-
-        try {
-            // Intentamos obtener el modelo dinámico para la categoría
-            categoryCollection = mongoose.model(categoryCollectionName);
-        } catch (err) {
-            // Si la colección no existe, la creamos
-            const categorySchema = new mongoose.Schema(ProductModel.schema.obj);
-            categoryCollection = mongoose.model(categoryCollectionName, categorySchema, categoryCollectionName);
-        }
-
-        // Guardamos el producto en la colección de la categoría específica
-        await categoryCollection.create(newProduct);
 
         return product;  // Devolvemos el producto creado
 
     } catch (error) {
         console.error('Error al insertar el producto:', error);
         throw error;
-    }
+    } 
 }
 
 const dbUpdateProduct = async ( id, updatedProduct ) => {

@@ -76,12 +76,7 @@ async function createProduct( req, res ) {
 
 }
 
-function updateProductPut( req, res ) {
-    res.json({
-        ok: true,
-        msg: 'Actualiza todos los campos del producto'
-    });
-}
+
 
 async function updateProductPatch( req, res ) {
     const productId = req.params.id;
@@ -102,6 +97,13 @@ async function updateProductPatch( req, res ) {
             msg: 'Error al actualizar un producto por ID'
         })   
     }
+}
+
+function updateProductPut( req, res ) {
+    res.json({
+        ok: true,
+        msg: 'Actualiza todos los campos del producto'
+    });
 }
 
 async function deleteProduct( req, res ) {
