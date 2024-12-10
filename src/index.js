@@ -1,6 +1,8 @@
 const express = require( 'express' );
 const cors = require('cors');
+const dotenv = require('dotenv')
 
+dotenv.config()
 const app = express();
 const PORT = process.env.PORT;
 
@@ -27,6 +29,4 @@ app.use( '/api/subcategories', require( './routes/subcategory.routes' ) );
 /** Lanzamos el servidor en puergto indicado 
  * http://localhost:3000
 */
-app.listen( PORT, function() {
-    console.log( 'Servidor corriendo en puerto ', PORT );
-});
+module.exports = app
