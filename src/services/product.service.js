@@ -3,9 +3,9 @@ const mongoose = require('mongoose');
 const ProductModel = require("../models/Product.model");
 const Categorymodel = require("../models/category.model");
 
-    const dbGetProducts = async () => {
-        return await ProductModel.find().populate('code_departament');
-    }
+const dbGetProducts = async () => {
+    return await ProductModel.find().populate('userId');
+}
 
 const dbGetProductById = async ( _id ) => {
     return await ProductModel.findOne({ _id });
